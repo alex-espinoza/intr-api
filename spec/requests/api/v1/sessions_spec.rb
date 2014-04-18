@@ -12,7 +12,7 @@ describe "Sessions API" do
         }
       }.to_json
 
-      post "/sessions", user_params
+      post "/api/v1/sessions", user_params
 
       expect(response.status).to eq(200)
       json = JSON.parse(response.body)
