@@ -1,6 +1,6 @@
 describe "Sessions API" do
   describe "POST /sessions" do
-    it "on success, returns user's authentication token" do
+    it "on success, returns the user's authentication token" do
       user = FactoryGirl.create(:user)
 
       user_params = {
