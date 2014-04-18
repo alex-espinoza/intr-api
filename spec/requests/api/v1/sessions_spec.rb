@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 describe "Sessions API" do
   describe "POST /sessions" do
     it "on success, returns the user's authentication token" do
