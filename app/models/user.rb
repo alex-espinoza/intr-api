@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
 
   before_save :ensure_authentication_token
 
-private
+  private
 
   def ensure_authentication_token
     if authentication_token.blank?
@@ -20,7 +20,7 @@ private
 
   def generate_authentication_token
     loop do
-      token = SecureRandom.hex
+      token = SecureRandom.hex.to_s
       break token unless User.find_by(authentication_token: token)
     end
   end
