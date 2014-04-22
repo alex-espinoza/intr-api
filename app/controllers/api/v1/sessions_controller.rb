@@ -11,4 +11,10 @@ class API::V1::SessionsController < Devise::SessionsController
                         :message => "You have been successfully logged in.",
                            :data => { :authentication_token => current_user.authentication_token } }
   end
+
+  def failure
+    render :status => 401,
+             :json => { :success => false,
+                        :message => "Invalid email and/or password." }
+  end
 end
