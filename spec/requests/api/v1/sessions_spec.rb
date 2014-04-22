@@ -39,17 +39,8 @@ describe API::V1::SessionsController do
   end
 
   describe "DELETE /sessions" do
-    it "destroys the user's session" do
+    it "destroys and recreates the user's authentication token" do
       user = FactoryGirl.create(:user)
-
-      user_params = {
-        "user" => {
-          "email" => user.email,
-          "password" => user.password
-        }
-      }.to_json
-
-      post "/api/v1/sessions", user_params, request_headers
 
       delete "/api/v1/sessions?authentication_token=#{user.authentication_token}", {}, request_headers
 
