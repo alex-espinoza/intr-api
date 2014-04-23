@@ -11,6 +11,10 @@ class API::V1::RegistrationsController < Devise::RegistrationsController
                                                           :email => resource.email,
                                                           :authentication_token => resource.authentication_token,
                                                           :created_at => resource.created_at } } }
+    else
+      return render :status => 422,
+                      :json => { :success => false,
+                                 :message => resource.errors }
     end
   end
 
