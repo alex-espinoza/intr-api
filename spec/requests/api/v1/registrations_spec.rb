@@ -41,7 +41,7 @@ describe API::V1::RegistrationsController do
 
       expect(response.status).to eq(422)
       expect(json['success']).to be_false
-      expect(json['message']).to eq("Errors")
+      expect(json['message']['password_confirmation'][0]).to eq("doesn't match Password")
     end
   end
 end
