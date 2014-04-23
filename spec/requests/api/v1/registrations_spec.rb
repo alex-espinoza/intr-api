@@ -15,8 +15,15 @@ describe API::V1::RegistrationsController do
 
       post "/api/v1/registrations", user_params, request_headers
 
-      expect(request.status).to eq(200)
+      new_user = User.last
+
+      expect(response.status).to eq(200)
+      expect(json['success']).to be_true
       expect(json['message']).to eq("New account has been successfully created.")
+      expect(json['data']['user']['id']).to eq(new_user.id)
+      expect(json['data']['user']['email']).to eq(new_user.email)
+      expect(json['data']['user']['authentication_token']).to eq(new_user.authentication_token)
+      expect(json['data']['user']['created_at']).to eq(new_user.created_at.as_json)
     end
   end
 end
