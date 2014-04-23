@@ -2,16 +2,10 @@ require 'spec_helper'
 
 describe API::V1::RegistrationsController do
   describe "POST /registrations" do
-    it "on success, creates a new user" do
-      user = FactoryGirl.build(:user)
+    before(:each) { @user = FactoryGirl.build(:user) }
 
-      user_params = {
-                      "user" => {
-                        "email" => user.email,
-                        "password" => user.password,
-                        "password_confirmation" => user.password
-                      }
-                    }.to_json
+    it "on success, creates a new user" do
+      user_params = build_user_params(@user.email, @user.password)
 
       post "/api/v1/registrations", user_params, request_headers
 
@@ -27,21 +21,23 @@ describe API::V1::RegistrationsController do
     end
 
     it "on failure, does not create a new user" do
-      user = FactoryGirl.build(:user)
-
-      user_params = {
-                      "user" => {
-                        "email" => user.email,
-                        "password" => 'thispass',
-                        "password_confirmation" => 'doesnotmatch'
-                      }
-                    }.to_json
+      user_params = build_user_params(@user.email, @user.password, 'notmatching')
 
       post "/api/v1/registrations", user_params, request_headers
 
       expect(response.status).to eq(422)
       expect(json['success']).to be_false
       expect(json['message']['password_confirmation'][0]).to eq("doesn't match Password")
+    end
+
+    def build_user_params(email, password, password_confirmation=nil)
+      {
+        "user" => {
+          "email" => email,
+          "password" => password,
+          "password_confirmation" => password_confirmation || password
+        }
+      }.to_json
     end
   end
 end
