@@ -18,6 +18,7 @@ describe API::V1::RegistrationsController do
       expect(json['data']['user']['email']).to eq(new_user.email)
       expect(json['data']['user']['authentication_token']).to eq(new_user.authentication_token)
       expect(json['data']['user']['created_at']).to eq(new_user.created_at.as_json)
+      expect(User.all.count).to eq(1)
     end
 
     it "on failure, does not create a new user" do
@@ -28,6 +29,7 @@ describe API::V1::RegistrationsController do
       expect(response.status).to eq(422)
       expect(json['success']).to be_false
       expect(json['message']['password_confirmation'][0]).to eq("doesn't match Password")
+      expect(User.all.count).to eq(0)
     end
 
     def build_user_params(email, password, password_confirmation=nil)
