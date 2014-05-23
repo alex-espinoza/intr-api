@@ -13,7 +13,8 @@ class API::V1::SessionsController < API::V1::ApiController
                       :json => { :success => true,
                                  :message => "You have been successfully logged in.",
                                     :data => { :user_token => user.authentication_token,
-                                               :user_email => user.email } }
+                                               :user_email => user.email,
+                                               :user_id => user.id } }
     else
       return failure
     end
