@@ -8,10 +8,12 @@ class API::V1::SessionsController < API::V1::ApiController
     user = User.find_by(email: email)
 
     if user && user.valid_password?(password)
+      session[:user_id] = user.id
       return render :status => 200,
                       :json => { :success => true,
                                  :message => "You have been successfully logged in.",
-                                    :data => { :authentication_token => user.authentication_token } }
+                                    :data => { :user_token => user.authentication_token,
+                                               :user_email => user.email } }
     else
       return failure
     end
@@ -21,7 +23,8 @@ class API::V1::SessionsController < API::V1::ApiController
     # Authentication token is set to nil, so when update_attribute saves the record,
     # a new authentication token is generated for the current_user with the User model
     # before_save callback
-    @current_user.update_attribute(:authentication_token, nil)
+    current_user.update_attribute(:authentication_token, nil)
+    session[:user_id] = nil
     return render :status => 200,
                     :json => { :success => true,
                                :message => "You have been successfully logged out." }

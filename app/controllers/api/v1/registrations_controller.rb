@@ -1,4 +1,6 @@
 class API::V1::RegistrationsController < Devise::RegistrationsController
+  # To-do: Get rid of devise completely
+
   respond_to :json
 
   def create

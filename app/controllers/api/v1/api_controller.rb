@@ -6,26 +6,25 @@ class API::V1::ApiController < ApplicationController
   private
 
   def authenticate_user
-    unless authenticate_user_by_params || authenticate_user_by_header
+    unless authenticate_user_by_header
+      self.headers['WWW-Authenticate'] = 'Token realm="Application"'
       return render :status => 401,
                       :json => { :success => false,
                                  :message => "Invalid API token." }
     end
-
-    @current_user = @authenticated_user if @authenticated_user
-  end
-
-  def authenticate_user_by_params
-    return true if @authenticated_user
-
-    @authenticated_user = User.find_by(authentication_token: params[:authentication_token])
   end
 
   def authenticate_user_by_header
-    return true if @authenticated_user
+    return true if current_user
 
-    authenticate_with_http_token do |token|
-      @authenticated_user = User.find_by(authentication_token: token)
+    auth_header = request.headers['Authorization'].to_s
+    token = auth_header.sub(/^Token: /, '')
+    if token
+      User.find_by(authentication_token: token) ? true : false
     end
+  end
+
+  def current_user
+    @current_user ||= User.find(session[:user_id]) if session[:user_id]
   end
 end
