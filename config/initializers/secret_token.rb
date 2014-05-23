@@ -10,10 +10,11 @@
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
 
-# Although this is not needed for an api-only application, rails4 
-# requires secret_key_base or secret_token to be defined, otherwise an 
+# Although this is not needed for an api-only application, rails4
+# requires secret_key_base or secret_token to be defined, otherwise an
 # error is raised.
 # Using secret_token for rails3 compatibility. Change to secret_key_base
 # to avoid deprecation warning.
 # Can be safely removed in a rails3 api-only application.
 IntrApi::Application.config.secret_token = '06fb27be12b6a5629eafaf082c8677f23ffc9c4e77aed78e26c3b5c4495dc6c7a17d3544fefde6661a3f96384589dcee7afebb4d4987f812b00bfb4f2300c0d1'
+IntrApi::Application.config.secret_key_base = '9e600446ec9abd0a58e0fcc31d76d5cf7e1c3bc0aafbb0b45c4a3ae009ce020f5e4cb9e13857d4409bcd9683ff18a46f6f75b69a4131893f6fd7b6a4bb8ca3fc'

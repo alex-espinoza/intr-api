@@ -21,5 +21,9 @@ module IntrApi
     # config.i18n.default_locale = :de
 
     config.middleware.insert_after ActionDispatch::Callbacks, ActionDispatch::Flash
+    config.middleware.insert_after ActiveRecord::QueryCache, ActionDispatch::Cookies
+    config.middleware.insert_after ActionDispatch::Cookies, ActionDispatch::Session::CookieStore
+
+    config.api_only = false
   end
 end
