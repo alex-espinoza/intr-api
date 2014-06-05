@@ -3,7 +3,9 @@ IntrApi::Application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
-      resources :users
+      resources :users, only: [:index, :show, :edit, :update] do
+        resources :internships, only: [:index, :show, :update]
+      end
       devise_scope :user do
         post 'sessions' => 'sessions#create', :as => 'login'
         delete 'sessions' => 'sessions#destroy', :as => 'logout'
