@@ -11,6 +11,7 @@ gem 'pg'
 
 gem 'devise'
 gem 'active_model_serializers'
+gem 'state_machine'
 
 group :development do
   gem 'quiet_assets'
